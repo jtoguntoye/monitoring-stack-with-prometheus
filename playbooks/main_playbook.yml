@@ -1,6 +1,6 @@
 ---
 
-- name: Install Grafana 
+- name: Install Grafana, prometheus and Jenkins
   hosts: main
   become: yes
   vars:
@@ -29,6 +29,8 @@
       name: grafana-server
       state: started
       enabled: yes
+      
+      
   
   - name: Download prometheus
     ansible.builtin.get_url:
@@ -102,6 +104,9 @@
       state: started
       enabled: yes
       name: prometheus
+      
+      
+  
       
       
       

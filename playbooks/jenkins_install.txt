@@ -1,0 +1,6 @@
+- Add repository key to system
+- Append the Debian package repository address to the sources list
+- update package 
+- install Jenkins
+- Ensure Jenkins is started
+- open the firewall port 8080
