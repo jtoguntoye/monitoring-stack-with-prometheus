@@ -36,3 +36,5 @@ override.tf.json
 .terraformrc
 terraform.rc
 aws_hosts
+
+.ansible
