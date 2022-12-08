@@ -24,9 +24,11 @@ variable "main_instance_count" {
 }
 
 variable "key_name" {
+default = "mtg_pub_key"
   type = string
 }
 
  variable "public_key_path" {
+ default = "/home/ubuntu/.ssh/mtckey.pub"
    type = string
  }
