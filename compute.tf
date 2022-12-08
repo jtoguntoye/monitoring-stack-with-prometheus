@@ -32,13 +32,13 @@ resource "aws_instance" "mtg_main_instance" {
   }
 
   provisioner "local-exec" {
-    command = "printf '\n${self.public_ip}' >> ./aws_hosts && aws ec2 wait instance-status-ok --instance-ids ${self.id} --region eu-west-3"
+    command = "touch ./aws_hosts && printf '\n${self.public_ip}' >> ./aws_hosts && aws ec2 wait instance-status-ok --instance-ids ${self.id} --region eu-west-3"
   }
 
-  provisioner "local-exec" {
-    when = destroy
-    command = "sed -i '/^[0-9]/d' ./aws_hosts"
-  }
+  # provisioner "local-exec" {
+  #   when = destroy
+  #   command = "sed -i '/^[0-9]/d' ./aws_hosts"
+  # }
 }
 
 resource "aws_key_pair" "mtg_instance_key" {
