@@ -35,16 +35,21 @@ resource "aws_instance" "mtg_main_instance" {
     command = "touch ./aws_hosts && printf '\n${self.public_ip}' >> ./aws_hosts && aws ec2 wait instance-status-ok --instance-ids ${self.id} --region eu-west-3"
   }
 
-  # provisioner "local-exec" {
-  #   when = destroy
-  #   command = "sed -i '/^[0-9]/d' ./aws_hosts"
-  # }
+  provisioner "local-exec" {
+    when = destroy
+    command = "sed -i '/^[0-9]/d' ./aws_hosts"
+  }
 }
 
 resource "aws_key_pair" "mtg_instance_key" {
  key_name = var.key_name 
  public_key = file(var.public_key_path)
 }
+
+
+output "instance_ips" {
+    value = {for i in aws_instance.mtg_main_instance[*]: i.tags.Name => "${i.public_ip}:3000" }
+    }  
 
 # resource "null_resource" "grafana_update" {
 #   count = var.main_instance_count
@@ -61,11 +66,11 @@ resource "aws_key_pair" "mtg_instance_key" {
 # }
 
 
-resource "null_resource" "grafana_install" {
-  depends_on = [aws_instance.mtg_main_instance]
+# resource "null_resource" "grafana_install" {
+#   depends_on = [aws_instance.mtg_main_instance]
   
-  provisioner "local-exec" {
-     command = "ansible-playbook -i aws_hosts --key-file /home/ubuntu/.ssh/mtckey playbooks/grafana.yml"
-  } 
+#   provisioner "local-exec" {
+#     command = "ansible-playbook -i aws_hosts --key-file /home/ubuntu/.ssh/mtckey playbooks/grafana.yml"
+#   } 
   
-}
+# }
