@@ -66,11 +66,11 @@ output "instance_ips" {
 # }
 
 
-resource "null_resource" "grafana_install" {
-  depends_on = [aws_instance.mtg_main_instance]
+# resource "null_resource" "grafana_install" {
+#   depends_on = [aws_instance.mtg_main_instance]
   
-  provisioner "local-exec" {
-    command = "ansible-playbook -i aws_hosts --key-file /home/ubuntu/.ssh/mtckey playbooks/main_playbook.yml"
-  } 
+#   provisioner "local-exec" {
+#     command = "ansible-playbook -i aws_hosts --key-file /home/ubuntu/.ssh/mtckey playbooks/main_playbook.yml"
+#   } 
   
-}
+# }
