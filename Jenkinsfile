@@ -19,7 +19,14 @@ pipeline {
             }
         }
         
+       
+        
         stage ('Validate Terraform apply') {
+        
+         when {
+           beforeInput true
+           branch "dev"
+        }
         input{
         message "Do you want to apply this plan"
         ok "Apply plan"
@@ -41,6 +48,11 @@ pipeline {
         }
         
         stage ('Manually approve Ansible playbook run') {
+        
+        when {
+           beforeInput true
+           branch "dev"
+        }
         input{
         message "Do you want to run the playbook"
         ok "Run playbook"
