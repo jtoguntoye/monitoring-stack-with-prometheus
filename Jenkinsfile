@@ -31,7 +31,7 @@ pipeline {
         
         stage('Ansible bootstrapping') {
         steps{
-         ansiblePlaybook(credentialsId: 'ssh_key', inventory: 'aws_hosts', playbook: 'main_playbook.yml')
+         ansiblePlaybook(credentialsId: 'ssh_key', inventory: 'aws_hosts', playbook: 'playbooks/main_playbook.yml')
         }
         }
         stage('Destroy'){
