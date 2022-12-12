@@ -20,8 +20,12 @@ pipeline {
         }
         
         stage ('Validate Terraform apply') {
+        input{
+        message "Do you want to apply this plan"
+        ok "Apply plan"
+        }
         steps{
-           input('')
+           echo 'Apply Accepted'   
          }
         }
         stage('Apply'){
@@ -29,16 +33,36 @@ pipeline {
             sh 'terraform apply -auto-approve -no-color'
             }
         }
+        
         stage ('EC2 Await') {
         steps{
          sh 'aws ec2 wait instance-status-ok --region eu-west-3'
           }
         }
         
+        stage ('Manually approve Ansible playbook run') {
+        input{
+        message "Do you want to run the playbook"
+        ok "Run playbook"
+        }
+        steps{
+           echo 'Accepted'   
+         }
+        }
         stage('Ansible bootstrapping') {
         steps{
          ansiblePlaybook(credentialsId: 'ssh-key', inventory: 'aws_hosts', playbook: 'playbooks/main_playbook.yml')
+          }
         }
+        
+        stage ('Manually approve Terraform destroy') {
+        input{
+        message "Do you want to Destroy infrastructure"
+        ok "Approve Terraform destroy"
+        }
+        steps{
+           echo 'Approved'   
+         }
         }
         stage('Destroy'){
             steps{
