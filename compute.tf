@@ -47,6 +47,10 @@ resource "aws_key_pair" "mtg_instance_key" {
 }
 
 
+output "grafana_access" {
+    value = {for i in aws_instance.mtg_main_instance[*]: i.tags.Name => "${i.public_ip}:3000" }
+    }  
+
 output "instance_ips" {
     value = {for i in aws_instance.mtg_main_instance[*]: i.tags.Name => "${i.public_ip}:3000" }
     }  
