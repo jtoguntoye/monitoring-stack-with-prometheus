@@ -15,7 +15,7 @@ pipeline {
         }
         stage('Plan'){
             steps{
-            sh 'terraform plan -no-colo -var-file="$BRANCH_NAME.tfvars"'
+            sh 'terraform plan -no-color -var-file="$BRANCH_NAME.tfvars"'
             }
         }
         
@@ -83,4 +83,5 @@ pipeline {
         failure {
             echo 'Pipeline failed'
         }
+    }
 }
