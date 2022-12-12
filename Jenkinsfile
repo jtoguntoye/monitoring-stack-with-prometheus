@@ -18,6 +18,12 @@ pipeline {
             sh 'terraform plan -no-color'
             }
         }
+        
+        stage ('Validate Terraform apply') {
+        steps{
+           input('')
+         }
+        }
         stage('Apply'){
             steps{
             sh 'terraform apply -auto-approve -no-color'
@@ -31,7 +37,7 @@ pipeline {
         
         stage('Ansible bootstrapping') {
         steps{
-         ansiblePlaybook(credentialsId: 'ssh_key', inventory: 'aws_hosts', playbook: 'playbooks/main_playbook.yml')
+         ansiblePlaybook(credentialsId: 'ssh-key', inventory: 'aws_hosts', playbook: 'playbooks/main_playbook.yml')
         }
         }
         stage('Destroy'){
