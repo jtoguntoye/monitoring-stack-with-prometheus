@@ -1,6 +1,6 @@
 ---
 
-- name: Install Grafana, prometheus and Jenkins
+- name: Install Jenkins
   hosts: localhost
   become: yes
 
