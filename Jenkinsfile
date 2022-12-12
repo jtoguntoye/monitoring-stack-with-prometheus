@@ -3,7 +3,7 @@ pipeline {
     environment {
     TF_IN_AUTOMATION='true'
     TF_CLI_CONFIG_FILE=credentials('Terraform-cloud')
-    }
+    AWS_SHARED_CREDENTIALS_FILE='/home/ubuntu/.aws/credentials'
     stages {
         stage('Init') {
             steps {
@@ -21,6 +21,11 @@ pipeline {
             steps{
             sh 'terraform apply -auto-approve -no-color'
             }
+        }
+        stage ('EC2 Await') {
+        steps{
+         sh 'aws ec2 wait instance-status-ok --region eu-west-3'
+          }
         }
         stage('Destroy'){
             steps{
