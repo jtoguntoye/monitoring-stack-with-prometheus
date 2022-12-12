@@ -35,10 +35,10 @@ resource "aws_instance" "mtg_main_instance" {
     command = " printf '[main]' > ./aws_hosts && printf '\n${self.public_ip}' >> ./aws_hosts"
   }
 
-  provisioner "local-exec" {
-    when = destroy
-    command = "sed -i '/^[0-9]/d' ./aws_hosts"
-  }
+  # provisioner "local-exec" {
+  #   when = destroy
+  #   command = "sed -i '/^[0-9]/d' ./aws_hosts"
+  # }
 }
 
 resource "aws_key_pair" "mtg_instance_key" {
@@ -54,7 +54,10 @@ output "grafana_access" {
 output "instance_ips" {
     value = [for i in aws_instance.mtg_main_instance[*]: i.public_ip ]
     }  
-
+    
+output "instance_ids" {
+    value = [for i in aws_instance.mtg_main_instance[*]: i.id ]
+    }
 # resource "null_resource" "grafana_update" {
 #   count = var.main_instance_count
 #   connection {
