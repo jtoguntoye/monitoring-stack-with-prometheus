@@ -52,7 +52,7 @@ output "grafana_access" {
     }  
 
 output "instance_ips" {
-    value = {for i in aws_instance.mtg_main_instance[*]: i.tags.Name => "${i.public_ip}:3000" }
+    value = [for i in aws_instance.mtg_main_instance[*]: i.public_ip ]
     }  
 
 # resource "null_resource" "grafana_update" {
