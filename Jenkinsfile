@@ -77,6 +77,12 @@ pipeline {
           }
         }
         
+        stage('Test app'){
+        steps{
+          ansiblePlaybook(credentialsId: 'ssh-key', inventory: 'aws_hosts', playbook: 'playbooks/node-test.yml')
+          }
+        }
+        
         stage ('Manually approve Terraform destroy') {
         input{
         message "Do you want to Destroy infrastructure"
